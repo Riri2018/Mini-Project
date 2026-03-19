@@ -1,0 +1,610 @@
+{
+    "designSystem": {
+        "name": "SmartSalary Glassmorphism",
+        "version": "1.0.0",
+        "description": "Glassmorphism design system for SmartSalary — AI-driven financial platform for freshers",
+        "theme": "dark"
+    },
+    "colors": {
+        "backgrounds": {
+            "page": "#0a0e1a",
+            "pageGradient": "linear-gradient(135deg, #0a0e1a 0%, #0d2a1e 40%, #1a0a2e 100%)",
+            "meshLayer1": "radial-gradient(ellipse at 20% 20%, rgba(29,158,117,0.18) 0%, transparent 60%)",
+            "meshLayer2": "radial-gradient(ellipse at 80% 80%, rgba(108,99,255,0.15) 0%, transparent 60%)",
+            "meshLayer3": "radial-gradient(ellipse at 60% 10%, rgba(2,128,144,0.12) 0%, transparent 50%)"
+        },
+        "glass": {
+            "cardBackground": "rgba(255, 255, 255, 0.07)",
+            "cardBackgroundHover": "rgba(255, 255, 255, 0.11)",
+            "cardBackgroundActive": "rgba(255, 255, 255, 0.14)",
+            "surfacePrimary": "rgba(255, 255, 255, 0.05)",
+            "surfaceSecondary": "rgba(255, 255, 255, 0.03)",
+            "overlayDark": "rgba(0, 0, 0, 0.35)",
+            "overlayLight": "rgba(255, 255, 255, 0.08)"
+        },
+        "borders": {
+            "default": "rgba(255, 255, 255, 0.14)",
+            "hover": "rgba(255, 255, 255, 0.25)",
+            "focus": "rgba(29, 158, 117, 0.7)",
+            "accent": "rgba(108, 99, 255, 0.5)",
+            "success": "rgba(2, 195, 154, 0.4)",
+            "warning": "rgba(239, 159, 39, 0.4)",
+            "danger": "rgba(226, 75, 74, 0.4)"
+        },
+        "brand": {
+            "teal": "#1D9E75",
+            "tealLight": "#5DCAA5",
+            "tealDim": "rgba(29, 158, 117, 0.35)",
+            "ocean": "#028090",
+            "oceanDim": "rgba(2, 128, 144, 0.3)",
+            "violet": "#6C63FF",
+            "violetLight": "#9F96FF",
+            "violetDim": "rgba(108, 99, 255, 0.25)",
+            "mint": "#02C39A",
+            "mintDim": "rgba(2, 195, 154, 0.2)"
+        },
+        "semantic": {
+            "success": "#02C39A",
+            "successBg": "rgba(2, 195, 154, 0.12)",
+            "warning": "#EF9F27",
+            "warningBg": "rgba(239, 159, 39, 0.12)",
+            "danger": "#E24B4A",
+            "dangerBg": "rgba(226, 75, 74, 0.12)",
+            "info": "#6C63FF",
+            "infoBg": "rgba(108, 99, 255, 0.12)"
+        },
+        "text": {
+            "primary": "rgba(255, 255, 255, 0.95)",
+            "secondary": "rgba(255, 255, 255, 0.65)",
+            "tertiary": "rgba(255, 255, 255, 0.40)",
+            "disabled": "rgba(255, 255, 255, 0.22)",
+            "accent": "#5DCAA5",
+            "accentViolet": "#9F96FF",
+            "onDark": "#ffffff",
+            "inverseLabel": "#0a0e1a"
+        }
+    },
+    "effects": {
+        "blur": {
+            "xs": "blur(4px)",
+            "sm": "blur(8px)",
+            "md": "blur(16px)",
+            "lg": "blur(24px)",
+            "xl": "blur(40px)"
+        },
+        "backdrop": {
+            "card": "blur(16px) saturate(180%)",
+            "modal": "blur(24px) saturate(200%)",
+            "nav": "blur(20px) saturate(160%)",
+            "tooltip": "blur(12px) saturate(150%)"
+        },
+        "shadow": {
+            "card": "0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2)",
+            "cardHover": "0 16px 48px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.25)",
+            "modal": "0 24px 64px rgba(0,0,0,0.6)",
+            "button": "0 4px 16px rgba(29,158,117,0.3)",
+            "buttonViolet": "0 4px 16px rgba(108,99,255,0.35)",
+            "glow": {
+                "teal": "0 0 24px rgba(29,158,117,0.4)",
+                "violet": "0 0 24px rgba(108,99,255,0.4)",
+                "mint": "0 0 24px rgba(2,195,154,0.35)"
+            }
+        },
+        "noise": {
+            "texture": "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\")",
+            "opacity": 0.04
+        }
+    },
+    "typography": {
+        "fonts": {
+            "display": "'Clash Display', 'Syne', sans-serif",
+            "body": "'DM Sans', 'Plus Jakarta Sans', sans-serif",
+            "mono": "'JetBrains Mono', 'Fira Code', monospace",
+            "number": "'Outfit', 'DM Sans', sans-serif"
+        },
+        "googleFontsUrl": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Outfit:wght@400;500;600&family=Syne:wght@500;600&display=swap",
+        "scale": {
+            "display": {
+                "size": "40px",
+                "weight": "600",
+                "lineHeight": "1.1",
+                "letterSpacing": "-0.02em",
+                "font": "display"
+            },
+            "h1": {
+                "size": "28px",
+                "weight": "600",
+                "lineHeight": "1.2",
+                "letterSpacing": "-0.015em",
+                "font": "display"
+            },
+            "h2": {
+                "size": "22px",
+                "weight": "500",
+                "lineHeight": "1.3",
+                "letterSpacing": "-0.01em",
+                "font": "display"
+            },
+            "h3": {
+                "size": "17px",
+                "weight": "500",
+                "lineHeight": "1.4",
+                "font": "body"
+            },
+            "body": {
+                "size": "14px",
+                "weight": "400",
+                "lineHeight": "1.65",
+                "font": "body"
+            },
+            "bodySmall": {
+                "size": "12px",
+                "weight": "400",
+                "lineHeight": "1.6",
+                "font": "body"
+            },
+            "label": {
+                "size": "11px",
+                "weight": "500",
+                "lineHeight": "1.4",
+                "letterSpacing": "0.06em",
+                "textTransform": "uppercase",
+                "font": "body"
+            },
+            "caption": {
+                "size": "10px",
+                "weight": "400",
+                "lineHeight": "1.5",
+                "font": "body"
+            },
+            "number": {
+                "size": "32px",
+                "weight": "500",
+                "lineHeight": "1",
+                "font": "number"
+            },
+            "numberLarge": {
+                "size": "48px",
+                "weight": "500",
+                "lineHeight": "1",
+                "font": "number"
+            }
+        }
+    },
+    "spacing": {
+        "0": "0px",
+        "1": "4px",
+        "2": "8px",
+        "3": "12px",
+        "4": "16px",
+        "5": "20px",
+        "6": "24px",
+        "8": "32px",
+        "10": "40px",
+        "12": "48px",
+        "16": "64px",
+        "20": "80px"
+    },
+    "borderRadius": {
+        "xs": "6px",
+        "sm": "8px",
+        "md": "12px",
+        "lg": "16px",
+        "xl": "20px",
+        "2xl": "28px",
+        "full": "9999px"
+    },
+    "components": {
+        "glassCard": {
+            "description": "Primary glass panel — used for dashboard tiles, info cards, stat blocks",
+            "background": "rgba(255, 255, 255, 0.07)",
+            "backdropFilter": "blur(16px) saturate(180%)",
+            "border": "0.5px solid rgba(255, 255, 255, 0.14)",
+            "borderRadius": "16px",
+            "padding": "20px 22px",
+            "boxShadow": "0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2)",
+            "transition": "all 0.25s ease",
+            "hover": {
+                "background": "rgba(255, 255, 255, 0.11)",
+                "border": "0.5px solid rgba(255, 255, 255, 0.25)",
+                "boxShadow": "0 16px 48px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.25)",
+                "transform": "translateY(-2px)"
+            }
+        },
+        "glassCardAccent": {
+            "description": "Accent glass panel — used for AI insights, featured recommendations",
+            "background": "rgba(29, 158, 117, 0.12)",
+            "backdropFilter": "blur(16px) saturate(180%)",
+            "border": "0.5px solid rgba(29, 158, 117, 0.35)",
+            "borderRadius": "16px",
+            "padding": "18px 20px",
+            "boxShadow": "0 8px 32px rgba(0,0,0,0.3), 0 0 24px rgba(29,158,117,0.12)"
+        },
+        "glassCardViolet": {
+            "description": "Violet glass panel — used for investment/credit score highlights",
+            "background": "rgba(108, 99, 255, 0.1)",
+            "backdropFilter": "blur(16px) saturate(180%)",
+            "border": "0.5px solid rgba(108, 99, 255, 0.3)",
+            "borderRadius": "16px",
+            "padding": "18px 20px",
+            "boxShadow": "0 8px 32px rgba(0,0,0,0.3), 0 0 24px rgba(108,99,255,0.1)"
+        },
+        "navBar": {
+            "background": "rgba(10, 14, 26, 0.75)",
+            "backdropFilter": "blur(20px) saturate(160%)",
+            "border": "0.5px solid rgba(255, 255, 255, 0.1)",
+            "borderRadius": "0",
+            "padding": "14px 24px",
+            "position": "sticky",
+            "top": "0",
+            "zIndex": "100"
+        },
+        "navPill": {
+            "default": {
+                "background": "transparent",
+                "color": "rgba(255,255,255,0.5)",
+                "borderRadius": "8px",
+                "padding": "6px 14px",
+                "fontSize": "13px",
+                "fontWeight": "400"
+            },
+            "active": {
+                "background": "rgba(29, 158, 117, 0.2)",
+                "color": "#5DCAA5",
+                "border": "0.5px solid rgba(29, 158, 117, 0.4)",
+                "borderRadius": "8px",
+                "padding": "6px 14px"
+            }
+        },
+        "button": {
+            "primary": {
+                "background": "rgba(29, 158, 117, 0.85)",
+                "backdropFilter": "blur(8px)",
+                "color": "#ffffff",
+                "border": "0.5px solid rgba(93, 202, 165, 0.5)",
+                "borderRadius": "10px",
+                "padding": "10px 22px",
+                "fontSize": "13px",
+                "fontWeight": "500",
+                "boxShadow": "0 4px 16px rgba(29,158,117,0.3)",
+                "hover": {
+                    "background": "rgba(29, 158, 117, 1)",
+                    "boxShadow": "0 6px 24px rgba(29,158,117,0.45)"
+                }
+            },
+            "secondary": {
+                "background": "rgba(255, 255, 255, 0.07)",
+                "backdropFilter": "blur(8px)",
+                "color": "rgba(255,255,255,0.8)",
+                "border": "0.5px solid rgba(255, 255, 255, 0.18)",
+                "borderRadius": "10px",
+                "padding": "10px 22px",
+                "fontSize": "13px",
+                "fontWeight": "500",
+                "hover": {
+                    "background": "rgba(255, 255, 255, 0.12)",
+                    "border": "0.5px solid rgba(255,255,255,0.28)"
+                }
+            },
+            "ghost": {
+                "background": "transparent",
+                "color": "#5DCAA5",
+                "border": "none",
+                "padding": "8px 14px",
+                "fontSize": "13px"
+            }
+        },
+        "input": {
+            "background": "rgba(255, 255, 255, 0.06)",
+            "backdropFilter": "blur(8px)",
+            "border": "0.5px solid rgba(255, 255, 255, 0.15)",
+            "borderRadius": "10px",
+            "padding": "10px 14px",
+            "fontSize": "14px",
+            "color": "rgba(255,255,255,0.9)",
+            "placeholder": "rgba(255,255,255,0.3)",
+            "focus": {
+                "border": "0.5px solid rgba(29, 158, 117, 0.7)",
+                "boxShadow": "0 0 0 3px rgba(29,158,117,0.15)",
+                "outline": "none"
+            }
+        },
+        "progressBar": {
+            "track": {
+                "height": "5px",
+                "background": "rgba(255, 255, 255, 0.1)",
+                "borderRadius": "3px"
+            },
+            "fill": {
+                "teal": {
+                    "background": "linear-gradient(90deg, #028090, #1D9E75)",
+                    "borderRadius": "3px"
+                },
+                "violet": {
+                    "background": "linear-gradient(90deg, #534AB7, #6C63FF)",
+                    "borderRadius": "3px"
+                },
+                "amber": {
+                    "background": "linear-gradient(90deg, #BA7517, #EF9F27)",
+                    "borderRadius": "3px"
+                },
+                "danger": {
+                    "background": "linear-gradient(90deg, #A32D2D, #E24B4A)",
+                    "borderRadius": "3px"
+                }
+            }
+        },
+        "badge": {
+            "success": {
+                "background": "rgba(2, 195, 154, 0.15)",
+                "color": "#02C39A",
+                "border": "0.5px solid rgba(2,195,154,0.3)",
+                "borderRadius": "20px",
+                "padding": "3px 10px",
+                "fontSize": "10px",
+                "fontWeight": "500"
+            },
+            "warning": {
+                "background": "rgba(239, 159, 39, 0.15)",
+                "color": "#EF9F27",
+                "border": "0.5px solid rgba(239,159,39,0.3)",
+                "borderRadius": "20px",
+                "padding": "3px 10px",
+                "fontSize": "10px",
+                "fontWeight": "500"
+            },
+            "danger": {
+                "background": "rgba(226, 75, 74, 0.15)",
+                "color": "#E24B4A",
+                "border": "0.5px solid rgba(226,75,74,0.3)",
+                "borderRadius": "20px",
+                "padding": "3px 10px",
+                "fontSize": "10px",
+                "fontWeight": "500"
+            },
+            "info": {
+                "background": "rgba(108, 99, 255, 0.15)",
+                "color": "#9F96FF",
+                "border": "0.5px solid rgba(108,99,255,0.3)",
+                "borderRadius": "20px",
+                "padding": "3px 10px",
+                "fontSize": "10px",
+                "fontWeight": "500"
+            },
+            "neutral": {
+                "background": "rgba(255, 255, 255, 0.1)",
+                "color": "rgba(255,255,255,0.7)",
+                "border": "0.5px solid rgba(255,255,255,0.18)",
+                "borderRadius": "20px",
+                "padding": "3px 10px",
+                "fontSize": "10px",
+                "fontWeight": "500"
+            }
+        },
+        "avatar": {
+            "sm": {
+                "width": "28px",
+                "height": "28px",
+                "borderRadius": "50%",
+                "fontSize": "11px"
+            },
+            "md": {
+                "width": "36px",
+                "height": "36px",
+                "borderRadius": "50%",
+                "fontSize": "13px"
+            },
+            "lg": {
+                "width": "48px",
+                "height": "48px",
+                "borderRadius": "50%",
+                "fontSize": "16px"
+            },
+            "background": "rgba(29, 158, 117, 0.25)",
+            "border": "1px solid rgba(29, 158, 117, 0.4)",
+            "color": "#5DCAA5",
+            "fontWeight": "500"
+        },
+        "divider": {
+            "color": "rgba(255, 255, 255, 0.08)",
+            "thickness": "0.5px"
+        },
+        "tooltip": {
+            "background": "rgba(15, 18, 30, 0.92)",
+            "backdropFilter": "blur(12px)",
+            "border": "0.5px solid rgba(255, 255, 255, 0.15)",
+            "borderRadius": "8px",
+            "padding": "6px 12px",
+            "fontSize": "12px",
+            "color": "rgba(255,255,255,0.85)"
+        },
+        "modal": {
+            "overlay": "rgba(0, 0, 0, 0.65)",
+            "background": "rgba(14, 18, 32, 0.88)",
+            "backdropFilter": "blur(24px) saturate(200%)",
+            "border": "0.5px solid rgba(255, 255, 255, 0.14)",
+            "borderRadius": "20px",
+            "padding": "28px 32px",
+            "boxShadow": "0 24px 64px rgba(0,0,0,0.6)"
+        }
+    },
+    "screens": {
+        "dashboard": {
+            "layout": "sidebar + main content grid",
+            "background": "colors.backgrounds.pageGradient + meshLayer1 + meshLayer2 + meshLayer3",
+            "gridColumns": "240px 1fr",
+            "contentGrid": "repeat(auto-fit, minmax(280px, 1fr))",
+            "gap": "16px",
+            "components": [
+                "glassCard (stat tiles)",
+                "glassCardAccent (AI insight)",
+                "progressBar (budget)",
+                "navBar (top)",
+                "navPill (sidebar items)"
+            ]
+        },
+        "onboarding": {
+            "layout": "centered single column",
+            "background": "colors.backgrounds.pageGradient",
+            "maxWidth": "440px",
+            "components": [
+                "glassCard (form wrapper)",
+                "input",
+                "button.primary",
+                "badge.success"
+            ]
+        },
+        "investment": {
+            "layout": "2-column grid",
+            "background": "colors.backgrounds.pageGradient + meshLayer2 (violet dominant)",
+            "components": [
+                "glassCardViolet (portfolio cards)",
+                "progressBar.violet",
+                "badge.info",
+                "glassCardAccent (AI picks)"
+            ]
+        },
+        "taxPlanner": {
+            "layout": "stepped wizard",
+            "background": "colors.backgrounds.pageGradient",
+            "components": [
+                "glassCard (step panels)",
+                "input",
+                "badge.warning (tax alerts)",
+                "button.primary"
+            ]
+        }
+    },
+    "animations": {
+        "cardEntrance": {
+            "keyframes": "fadeInUp",
+            "duration": "0.4s",
+            "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+            "stagger": "0.06s"
+        },
+        "glowPulse": {
+            "keyframes": "pulse opacity 0.3 to 0.6",
+            "duration": "3s",
+            "easing": "ease-in-out",
+            "iteration": "infinite"
+        },
+        "numberCount": {
+            "description": "Count up from 0 to target value on mount",
+            "duration": "1.2s",
+            "easing": "ease-out"
+        },
+        "progressFill": {
+            "property": "width",
+            "duration": "0.8s",
+            "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+            "delay": "0.2s"
+        },
+        "hover": {
+            "transform": "translateY(-2px)",
+            "duration": "0.25s",
+            "easing": "ease"
+        },
+        "reducedMotion": "prefers-reduced-motion: reduce — disable all transforms and transitions"
+    },
+    "cssVariables": {
+        "--ss-bg": "#0a0e1a",
+        "--ss-glass": "rgba(255,255,255,0.07)",
+        "--ss-glass-hover": "rgba(255,255,255,0.11)",
+        "--ss-border": "rgba(255,255,255,0.14)",
+        "--ss-border-hover": "rgba(255,255,255,0.25)",
+        "--ss-blur": "blur(16px) saturate(180%)",
+        "--ss-teal": "#1D9E75",
+        "--ss-teal-light": "#5DCAA5",
+        "--ss-teal-dim": "rgba(29,158,117,0.25)",
+        "--ss-violet": "#6C63FF",
+        "--ss-violet-light": "#9F96FF",
+        "--ss-violet-dim": "rgba(108,99,255,0.2)",
+        "--ss-mint": "#02C39A",
+        "--ss-amber": "#EF9F27",
+        "--ss-danger": "#E24B4A",
+        "--ss-text-primary": "rgba(255,255,255,0.95)",
+        "--ss-text-secondary": "rgba(255,255,255,0.60)",
+        "--ss-text-tertiary": "rgba(255,255,255,0.38)",
+        "--ss-radius-sm": "8px",
+        "--ss-radius-md": "12px",
+        "--ss-radius-lg": "16px",
+        "--ss-radius-xl": "20px",
+        "--ss-shadow-card": "0 8px 32px rgba(0,0,0,0.4)",
+        "--ss-shadow-card-hover": "0 16px 48px rgba(0,0,0,0.5)"
+    },
+    "tailwindConfig": {
+        "description": "Tailwind CSS v3 extend block — paste into tailwind.config.js",
+        "theme": {
+            "extend": {
+                "colors": {
+                    "ss-teal": "#1D9E75",
+                    "ss-teal-light": "#5DCAA5",
+                    "ss-ocean": "#028090",
+                    "ss-violet": "#6C63FF",
+                    "ss-violet-light": "#9F96FF",
+                    "ss-mint": "#02C39A",
+                    "ss-amber": "#EF9F27",
+                    "ss-danger": "#E24B4A",
+                    "ss-bg": "#0a0e1a"
+                },
+                "backdropBlur": {
+                    "glass": "16px",
+                    "modal": "24px",
+                    "nav": "20px"
+                },
+                "borderRadius": {
+                    "glass": "16px",
+                    "glass-sm": "12px",
+                    "glass-lg": "20px"
+                },
+                "boxShadow": {
+                    "glass": "0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2)",
+                    "glass-hover": "0 16px 48px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.25)",
+                    "glow-teal": "0 0 24px rgba(29,158,117,0.4)",
+                    "glow-violet": "0 0 24px rgba(108,99,255,0.4)"
+                }
+            }
+        }
+    },
+    "reactComponents": {
+        "GlassCard": {
+            "className": "bg-white/[0.07] backdrop-blur-glass border border-white/[0.14] rounded-glass p-5 shadow-glass hover:bg-white/[0.11] hover:border-white/25 hover:shadow-glass-hover transition-all duration-250 hover:-translate-y-0.5",
+            "description": "Base glass card component"
+        },
+        "GlassCardAccent": {
+            "className": "bg-ss-teal/[0.12] backdrop-blur-glass border border-ss-teal/[0.35] rounded-glass p-5 shadow-glow-teal",
+            "description": "Teal-tinted glass card for AI insights"
+        },
+        "GlassCardViolet": {
+            "className": "bg-ss-violet/[0.10] backdrop-blur-glass border border-ss-violet/[0.30] rounded-glass p-5 shadow-glow-violet",
+            "description": "Violet-tinted glass card for investments"
+        },
+        "PrimaryButton": {
+            "className": "bg-ss-teal/90 backdrop-blur-sm text-white border border-ss-teal-light/50 rounded-[10px] px-5 py-2.5 text-sm font-medium shadow-[0_4px_16px_rgba(29,158,117,0.3)] hover:bg-ss-teal hover:shadow-[0_6px_24px_rgba(29,158,117,0.45)] transition-all",
+            "description": "Primary action button"
+        }
+    },
+    "accessibility": {
+        "minContrastRatio": "4.5:1 for body text, 3:1 for large text",
+        "notes": [
+            "Always test glass cards with contrast checker — dark glass can reduce readability",
+            "Provide --ss-text-primary at high opacity (0.95) for financial numbers",
+            "Never place tertiary text (0.38 opacity) on glass backgrounds for data labels",
+            "Add focus-visible rings with box-shadow for keyboard navigation",
+            "Respect prefers-reduced-motion by disabling blur animations"
+        ],
+        "focusRing": "box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.45)"
+    },
+    "metadata": {
+        "project": "SmartSalary",
+        "audience": "Fresh graduates, first-salary earners",
+        "techStack": [
+            "React.js",
+            "Tailwind CSS v3",
+            "Framer Motion",
+            "Flask/FastAPI"
+        ],
+        "createdFor": "Mini Project — LTCE, Navi Mumbai, 2025-26",
+        "generatedBy": "Claude (Anthropic)"
+    }
+}
