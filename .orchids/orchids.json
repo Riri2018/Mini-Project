@@ -1,0 +1,7 @@
+{
+  "projectId": "748cb943-070a-4d42-95ce-9f796554a9da",
+  "createdAt": 1774347065035,
+  "version": "1.0",
+  "startupCommands": ["npm install --legacy-peer-deps; npm run dev"],
+  "templateId": "any"
+}

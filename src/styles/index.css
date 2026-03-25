@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Variables ── */
+:root {
+  --ss-bg: #0a0e1a;
+  --ss-glass: rgba(255,255,255,0.07);
+  --ss-glass-hover: rgba(255,255,255,0.11);
+  --ss-border: rgba(255,255,255,0.14);
+  --ss-border-hover: rgba(255,255,255,0.25);
+  --ss-blur: blur(16px) saturate(180%);
+  --ss-teal: #1D9E75;
+  --ss-teal-light: #5DCAA5;
+  --ss-teal-dim: rgba(29,158,117,0.25);
+  --ss-violet: #6C63FF;
+  --ss-violet-light: #9F96FF;
+  --ss-violet-dim: rgba(108,99,255,0.2);
+  --ss-mint: #02C39A;
+  --ss-amber: #EF9F27;
+  --ss-danger: #E24B4A;
+  --ss-text-primary: rgba(255,255,255,0.95);
+  --ss-text-secondary: rgba(255,255,255,0.60);
+  --ss-text-tertiary: rgba(255,255,255,0.38);
+  --ss-radius-sm: 8px;
+  --ss-radius-md: 12px;
+  --ss-radius-lg: 16px;
+  --ss-radius-xl: 20px;
+  --ss-shadow-card: 0 8px 32px rgba(0,0,0,0.4);
+  --ss-shadow-card-hover: 0 16px 48px rgba(0,0,0,0.5);
+}
+
+/* ── Base Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--ss-bg);
+  color: var(--ss-text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.14); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+/* ── Selection ── */
+::selection { background: rgba(29,158,117,0.3); color: #fff; }
+
+/* ── Focus ring ── */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(29,158,117,0.45);
+}
+
+/* ── Background mesh ── */
+.bg-mesh {
+  background:
+    linear-gradient(135deg, #0a0e1a 0%, #0d2a1e 40%, #1a0a2e 100%),
+    radial-gradient(ellipse at 20% 20%, rgba(29,158,117,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(108,99,255,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 60% 10%, rgba(2,128,144,0.12) 0%, transparent 50%);
+}
+
+/* Mesh layers as pseudo-elements for better blending */
+.bg-mesh-page {
+  background: linear-gradient(135deg, #0a0e1a 0%, #0d2a1e 40%, #1a0a2e 100%);
+  position: relative;
+}
+
+.bg-mesh-page::before,
+.bg-mesh-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-mesh-page::before {
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(29,158,117,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 60% 10%, rgba(2,128,144,0.12) 0%, transparent 50%);
+}
+
+.bg-mesh-page::after {
+  background: radial-gradient(ellipse at 80% 80%, rgba(108,99,255,0.15) 0%, transparent 60%);
+}
+
+/* ── Stagger animation helper ── */
+.stagger-1 { animation-delay: 0.06s; }
+.stagger-2 { animation-delay: 0.12s; }
+.stagger-3 { animation-delay: 0.18s; }
+.stagger-4 { animation-delay: 0.24s; }
+.stagger-5 { animation-delay: 0.30s; }
+.stagger-6 { animation-delay: 0.36s; }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
