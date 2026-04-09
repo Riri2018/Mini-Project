@@ -9,11 +9,13 @@ import models
 router = APIRouter()
 
 class ProfileUpdate(BaseModel):
+    name: Optional[str] = None
     age: Optional[int] = None
     city: Optional[str] = None
     employer: Optional[str] = None
     salary: Optional[float] = None
     pay_date: Optional[int] = None
+    goals: Optional[List[str]] = None
 
 class OnboardingPayload(BaseModel):
     age: int
@@ -29,11 +31,16 @@ def get_profile(current_user: models.User = Depends(get_current_user), db: Sessi
     profile = db.query(models.UserProfile).filter(models.UserProfile.user_id == current_user.id).first()
     goals = db.query(models.FinancialGoal).filter(models.FinancialGoal.user_id == current_user.id, models.FinancialGoal.is_active == True).all()
     fixed = db.query(models.FixedExpense).filter(models.FixedExpense.user_id == current_user.id).all()
+    
     return {
         "name": current_user.name,
         "email": current_user.email,
-        "profile": profile,
-        "goals": [{"id": str(g.id), "goal_type": g.goal_type, "target_amount": float(g.target_amount or 0), "current_amount": float(g.current_amount or 0)} for g in goals],
+        "age": profile.age if profile else None,
+        "city": profile.city if profile else None,
+        "employer": profile.employer if profile else None,
+        "salary": float(profile.salary) if profile and profile.salary else 0,
+        "pay_date": profile.pay_date if profile else 1,
+        "goals": [g.goal_type for g in goals],
         "fixed_expenses": {f.category: float(f.amount) for f in fixed},
     }
 
@@ -64,9 +71,35 @@ def complete_onboarding(body: OnboardingPayload, current_user: models.User = Dep
 @router.patch("/profile")
 def update_profile(body: ProfileUpdate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
     profile = db.query(models.UserProfile).filter(models.UserProfile.user_id == current_user.id).first()
+    
     if not profile:
         raise HTTPException(404, "Profile not found")
-    for field, val in body.dict(exclude_none=True).items():
+    
+    # Update user name if provided
+    if body.name is not None:
+        current_user.name = body.name
+    
+    # Update profile fields
+    for field, val in body.dict(exclude_none=True, exclude={'goals', 'name'}).items():
         setattr(profile, field, val)
+    
+    # Update goals if provided
+    if body.goals is not None:
+        # Deactivate all existing goals
+        db.query(models.FinancialGoal).filter(
+            models.FinancialGoal.user_id == current_user.id
+        ).update({"is_active": False})
+        
+        # Add or reactivate goals
+        for goal_type in body.goals:
+            existing = db.query(models.FinancialGoal).filter(
+                models.FinancialGoal.user_id == current_user.id,
+                models.FinancialGoal.goal_type == goal_type
+            ).first()
+            if existing:
+                existing.is_active = True
+            else:
+                db.add(models.FinancialGoal(user_id=current_user.id, goal_type=goal_type))
+    
     db.commit()
     return {"message": "Profile updated"}

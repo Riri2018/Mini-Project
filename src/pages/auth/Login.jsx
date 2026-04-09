@@ -23,6 +23,11 @@ export default function Login() {
       return
     }
 
+    if (formData.password.length < 8) {
+      setFormError('Password must be at least 8 characters')
+      return
+    }
+
     const { success, needsOnboarding } = await login(formData.email, formData.password)
     
     if (success) {

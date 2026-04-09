@@ -10,8 +10,8 @@ import models
 
 router = APIRouter()
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
-MODEL = "qwen/qwen-2-7b-instruct:free"
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
+MODEL = "openai/gpt-3.5-turbo"  # Very cheap: $0.0005/1K tokens
 
 SYSTEM_PROMPT = """You are SmartSalary AI, a personal finance advisor exclusively for Indian salaried professionals.
 
@@ -52,7 +52,7 @@ async def chat(body: ChatRequest, db: Session = Depends(get_db)):
         user = models.User(
             id=mock_user_id,
             email="demo@smartsalary.app",
-            password_hash="mock",
+            password_hash="$2b$12$0RMYgsEkxOwpbcIJs1b4gOQSKhMz7fNn4OwjLoD3cWH2FTWp6MYge",
             name="Demo User",
             has_completed_onboarding=True
         )
@@ -100,21 +100,28 @@ async def chat(body: ChatRequest, db: Session = Depends(get_db)):
     }
 
     async with httpx.AsyncClient(timeout=30) as client:
-        resp = await client.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                "Content-Type": "application/json",
-                "HTTP-Referer": "https://smartsalary.app",
-                "X-Title": "SmartSalary AI Advisor",
-            },
-            json=payload,
-        )
+        try:
+            resp = await client.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://smartsalary.app",
+                    "X-Title": "SmartSalary AI Advisor",
+                },
+                json=payload,
+            )
+        except Exception as e:
+            raise HTTPException(500, f"Failed to connect to AI service: {str(e)}")
 
     if resp.status_code != 200:
-        raise HTTPException(502, f"AI service error: {resp.text}")
+        error_text = resp.text
+        raise HTTPException(502, f"AI service error: {error_text}")
 
-    reply = resp.json()["choices"][0]["message"]["content"].strip()
+    try:
+        reply = resp.json()["choices"][0]["message"]["content"].strip()
+    except (KeyError, IndexError) as e:
+        raise HTTPException(502, f"Invalid AI response format: {str(e)}")
 
     # Persist insight to DB
     db.add(models.AIInsight(

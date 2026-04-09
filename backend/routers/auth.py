@@ -11,6 +11,9 @@ class RegisterRequest(BaseModel):
     name: str
     email: EmailStr
     password: str
+    age: int
+    city: str
+    employer: str
 
 class LoginRequest(BaseModel):
     email: EmailStr
@@ -20,16 +23,41 @@ class LoginRequest(BaseModel):
 def register(body: RegisterRequest, db: Session = Depends(get_db)):
     if db.query(models.User).filter(models.User.email == body.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
+    
+    # Create user
     user = models.User(
         name=body.name,
         email=body.email,
         password_hash=hash_password(body.password),
     )
     db.add(user)
+    db.flush()  # Get user.id without committing
+    
+    # Create user profile with additional details
+    profile = models.UserProfile(
+        user_id=user.id,
+        age=body.age,
+        city=body.city,
+        employer=body.employer
+    )
+    db.add(profile)
     db.commit()
     db.refresh(user)
+    
     token = create_access_token({"sub": str(user.id)})
-    return {"access_token": token, "token_type": "bearer", "needs_onboarding": True, "user": {"id": str(user.id), "name": user.name, "email": user.email}}
+    return {
+        "access_token": token, 
+        "token_type": "bearer", 
+        "needs_onboarding": True, 
+        "user": {
+            "id": str(user.id), 
+            "name": user.name, 
+            "email": user.email,
+            "age": body.age,
+            "city": body.city,
+            "employer": body.employer
+        }
+    }
 
 @router.post("/login")
 def login(body: LoginRequest, db: Session = Depends(get_db)):

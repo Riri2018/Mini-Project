@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Mail, Lock, User, AlertCircle } from 'lucide-react'
+import { Mail, Lock, User, AlertCircle, MapPin, Briefcase, Calendar } from 'lucide-react'
 import GlassCard from '@/components/ui/GlassCard'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
@@ -11,19 +11,43 @@ export default function Register() {
   const navigate = useNavigate()
   const { register, isLoading, error } = useAuthStore()
   
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' })
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    email: '', 
+    password: '',
+    age: '',
+    city: '',
+    employer: ''
+  })
   const [formError, setFormError] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormError('')
     
-    if (!formData.name || !formData.email || !formData.password) {
+    if (!formData.name || !formData.email || !formData.password || !formData.age || !formData.city || !formData.employer) {
       setFormError('Please fill in all fields')
       return
     }
 
-    const { success } = await register(formData.name, formData.email, formData.password)
+    if (formData.password.length < 8) {
+      setFormError('Password must be at least 8 characters')
+      return
+    }
+
+    if (formData.age < 18 || formData.age > 100) {
+      setFormError('Please enter a valid age (18-100)')
+      return
+    }
+
+    const { success } = await register(
+      formData.name, 
+      formData.email, 
+      formData.password,
+      parseInt(formData.age),
+      formData.city,
+      formData.employer
+    )
     if (success) {
       navigate('/onboarding')
     }
@@ -91,6 +115,38 @@ export default function Register() {
                 value={formData.password}
                 onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
                 helper="Must be at least 8 characters"
+                required
+              />
+
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="Age"
+                  type="number"
+                  placeholder="25"
+                  icon={<Calendar size={16} />}
+                  value={formData.age}
+                  onChange={(e) => setFormData(prev => ({ ...prev, age: e.target.value }))}
+                  required
+                />
+
+                <Input
+                  label="City"
+                  type="text"
+                  placeholder="Mumbai"
+                  icon={<MapPin size={16} />}
+                  value={formData.city}
+                  onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                  required
+                />
+              </div>
+
+              <Input
+                label="Employer"
+                type="text"
+                placeholder="TechCorp India"
+                icon={<Briefcase size={16} />}
+                value={formData.employer}
+                onChange={(e) => setFormData(prev => ({ ...prev, employer: e.target.value }))}
                 required
               />
 

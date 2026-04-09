@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { registerUser, loginUser } from '@/services/authService'
 
 const useAuthStore = create((set) => ({
   user: null,         // { id, name, email, hasCompletedOnboarding }
@@ -9,37 +10,39 @@ const useAuthStore = create((set) => ({
   login: async (email, password) => {
     set({ isLoading: true, error: null })
     try {
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 800))
+      const data = await loginUser(email, password)
+      localStorage.setItem('token', data.access_token)
       
-      // Simulate successful login
-      const mockUser = {
-        id: '1',
-        name: 'Alex Fresher',
-        email,
-        hasCompletedOnboarding: true,
+      const user = {
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+        hasCompletedOnboarding: !data.needs_onboarding,
       }
       
-      set({ user: mockUser, isAuthenticated: true, isLoading: false })
-      return { success: true, needsOnboarding: !mockUser.hasCompletedOnboarding }
+      set({ user, isAuthenticated: true, isLoading: false })
+      return { success: true, needsOnboarding: data.needs_onboarding }
     } catch (error) {
       set({ error: error.message || 'Login failed', isLoading: false })
       return { success: false }
     }
   },
 
-  register: async (name, email, password) => {
+  register: async (name, email, password, age, city, employer) => {
     set({ isLoading: true, error: null })
     try {
-      await new Promise(resolve => setTimeout(resolve, 800))
-      const mockUser = {
-        id: '2',
-        name,
-        email,
-        hasCompletedOnboarding: false,
+      const data = await registerUser({ name, email, password, age, city, employer })
+      localStorage.setItem('token', data.access_token)
+      
+      const user = {
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+        hasCompletedOnboarding: !data.needs_onboarding,
       }
-      set({ user: mockUser, isAuthenticated: true, isLoading: false })
-      return { success: true, needsOnboarding: true }
+      
+      set({ user, isAuthenticated: true, isLoading: false })
+      return { success: true, needsOnboarding: data.needs_onboarding }
     } catch (error) {
       set({ error: error.message || 'Registration failed', isLoading: false })
       return { success: false }
@@ -47,6 +50,7 @@ const useAuthStore = create((set) => ({
   },
 
   logout: () => {
+    localStorage.removeItem('token')
     set({ user: null, isAuthenticated: false })
   },
   

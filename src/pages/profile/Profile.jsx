@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   User, Briefcase, MapPin, Bell, Target, Wallet,
@@ -16,8 +16,10 @@ import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Toggle from '@/components/ui/Toggle'
 import Modal from '@/components/ui/Modal'
+import Spinner from '@/components/ui/Spinner'
 import useUserStore from '@/store/userStore'
 import useAuthStore from '@/store/authStore'
+import { getUserProfile, updateUserProfile } from '@/services/userService'
 
 const goalOptions = [
   { id: 'emergency_fund', label: 'Emergency Fund', icon: Shield, color: '#1D9E75' },
@@ -38,20 +40,22 @@ const item = {
 }
 
 export default function Profile() {
-  const { profile, financialHealth, updateProfile } = useUserStore()
+  const { profile, financialHealth, updateProfile: updateStoreProfile } = useUserStore()
   const { user } = useAuthStore()
 
+  const [loading, setLoading] = useState(true)
+  const [realProfile, setRealProfile] = useState(null)
   const [editModal, setEditModal] = useState(null) // 'personal' | 'salary' | null
   const [form, setForm] = useState({
-    name: profile.name,
-    age: profile.age,
-    city: profile.city,
-    employer: profile.employer,
-    salary: profile.salary,
-    payDate: profile.payDate,
+    name: '',
+    age: 0,
+    city: '',
+    employer: '',
+    salary: 0,
+    payDate: 1,
   })
 
-  const [selectedGoals, setSelectedGoals] = useState(profile.goals)
+  const [selectedGoals, setSelectedGoals] = useState([])
   const [notifications, setNotifications] = useState({
     budgetAlerts: true,
     salaryReminder: true,
@@ -60,23 +64,73 @@ export default function Profile() {
     goalMilestones: true,
   })
 
+  // Fetch real profile data on mount
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const data = await getUserProfile()
+        setRealProfile(data)
+        setForm({
+          name: data.name || '',
+          age: data.age || 0,
+          city: data.city || '',
+          employer: data.employer || '',
+          salary: data.salary || 0,
+          payDate: data.pay_date || 1,
+        })
+        setSelectedGoals(data.goals || [])
+      } catch (err) {
+        console.error('Failed to load profile:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadProfile()
+  }, [])
+
+  // Use real profile if loaded, otherwise fallback to store
+  const displayProfile = realProfile || profile
+
   function toggleGoal(id) {
     setSelectedGoals((prev) =>
       prev.includes(id) ? prev.filter((g) => g !== id) : [...prev, id]
     )
   }
 
-  function savePersonal() {
-    updateProfile({ name: form.name, age: form.age, city: form.city, employer: form.employer })
-    setEditModal(null)
+  async function savePersonal() {
+    try {
+      await updateUserProfile({ name: form.name, age: form.age, city: form.city, employer: form.employer })
+      setRealProfile({ ...realProfile, name: form.name, age: form.age, city: form.city, employer: form.employer })
+      updateStoreProfile({ name: form.name, age: form.age, city: form.city, employer: form.employer })
+      setEditModal(null)
+    } catch (err) {
+      console.error('Failed to save:', err)
+    }
   }
 
-  function saveSalary() {
-    updateProfile({ salary: form.salary, payDate: form.payDate })
-    setEditModal(null)
+  async function saveSalary() {
+    try {
+      await updateUserProfile({ salary: form.salary, pay_date: form.payDate })
+      setRealProfile({ ...realProfile, salary: form.salary, pay_date: form.payDate })
+      updateStoreProfile({ salary: form.salary, payDate: form.payDate })
+      setEditModal(null)
+    } catch (err) {
+      console.error('Failed to save:', err)
+    }
   }
 
-  const initials = profile.name.split(' ').map((n) => n[0]).join('').toUpperCase()
+  if (loading) {
+    return (
+      <AppShell>
+        <TopNav title="Profile" />
+        <div className="flex items-center justify-center h-[60vh]">
+          <Spinner />
+        </div>
+      </AppShell>
+    )
+  }
+
+  const initials = displayProfile.name?.split(' ').map((n) => n[0]).join('').toUpperCase() || 'U'
 
   return (
     <AppShell>
@@ -99,16 +153,16 @@ export default function Profile() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h2 className="font-display font-semibold text-[22px] text-white/95">{profile.name}</h2>
+                    <h2 className="font-display font-semibold text-[22px] text-white/95">{displayProfile.name}</h2>
                     <div className="flex items-center gap-3 mt-1 flex-wrap">
                       <span className="flex items-center gap-1.5 text-[13px] text-white/55">
-                        <Briefcase size={13} /> {profile.employer}
+                        <Briefcase size={13} /> {displayProfile.employer}
                       </span>
                       <span className="flex items-center gap-1.5 text-[13px] text-white/55">
-                        <MapPin size={13} /> {profile.city}
+                        <MapPin size={13} /> {displayProfile.city}
                       </span>
                       <span className="flex items-center gap-1.5 text-[13px] text-white/55">
-                        <User size={13} /> Age {profile.age}
+                        <User size={13} /> Age {displayProfile.age}
                       </span>
                     </div>
                   </div>
@@ -160,9 +214,9 @@ export default function Profile() {
                   </div>
                   <div className="grid sm:grid-cols-3 gap-4">
                     {[
-                      { label: 'Monthly Salary', value: `₹${profile.salary.toLocaleString()}` },
-                      { label: 'Annual Salary', value: `₹${(profile.salary * 12).toLocaleString()}` },
-                      { label: 'Pay Date', value: `${profile.payDate}${profile.payDate === 1 ? 'st' : profile.payDate === 2 ? 'nd' : 'th'} of month` },
+                      { label: 'Monthly Salary', value: `₹${(displayProfile.salary || 0).toLocaleString()}` },
+                      { label: 'Annual Salary', value: `₹${((displayProfile.salary || 0) * 12).toLocaleString()}` },
+                      { label: 'Pay Date', value: `${displayProfile.pay_date || 1}${(displayProfile.pay_date || 1) === 1 ? 'st' : (displayProfile.pay_date || 1) === 2 ? 'nd' : 'th'} of month` },
                     ].map((s) => (
                       <div key={s.label} className="p-3 rounded-xl bg-white/[0.04] border border-white/[0.07]">
                         <p className="text-[11px] text-white/40 uppercase tracking-wider mb-1">{s.label}</p>
@@ -172,7 +226,7 @@ export default function Profile() {
                   </div>
                   <div className="mt-4 space-y-2">
                     <h4 className="text-[13px] text-white/55 mb-2">Fixed Monthly Expenses</h4>
-                    {Object.entries(profile.fixedExpenses).map(([k, v]) => (
+                    {Object.entries(displayProfile.fixed_expenses || {}).map(([k, v]) => (
                       <div key={k} className="flex items-center justify-between">
                         <span className="text-[13px] text-white/70 capitalize">{k}</span>
                         <span className="text-[13px] font-number text-white/60">₹{v.toLocaleString()}</span>
@@ -181,7 +235,7 @@ export default function Profile() {
                     <div className="flex items-center justify-between pt-2 border-t border-white/[0.07]">
                       <span className="text-[13px] font-medium text-white/80">Total Fixed</span>
                       <span className="text-[13px] font-number font-medium text-ss-teal-light">
-                        ₹{Object.values(profile.fixedExpenses).reduce((a, b) => a + b, 0).toLocaleString()}
+                        ₹{Object.values(displayProfile.fixed_expenses || {}).reduce((a, b) => a + b, 0).toLocaleString()}
                       </span>
                     </div>
                   </div>
@@ -216,7 +270,15 @@ export default function Profile() {
                     })}
                   </div>
                   <div className="mt-4 flex justify-end">
-                    <Button onClick={() => updateProfile({ goals: selectedGoals })} variant="ghost">
+                    <Button onClick={async () => {
+                      try {
+                        await updateUserProfile({ goals: selectedGoals })
+                        setRealProfile({ ...realProfile, goals: selectedGoals })
+                        updateStoreProfile({ goals: selectedGoals })
+                      } catch (err) {
+                        console.error('Failed to save goals:', err)
+                      }
+                    }} variant="ghost">
                       Save Goals
                     </Button>
                   </div>

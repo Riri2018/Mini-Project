@@ -1,0 +1,1 @@
+# Python\n__pycache__/\n*.py[cod]\n*.pyo\n*.pyd\n*.env\n# Node\nnode_modules/\n.npm/\n.yarn/\n.pnpm/\n*.log\n.DS_Store\n.vscode/\n
